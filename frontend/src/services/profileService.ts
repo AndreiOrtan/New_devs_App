@@ -1,8 +1,9 @@
 import { supabase } from '../lib/supabase';
-import { 
-  ProfileResponse, 
-  ProfileUpdateRequest, 
-  PreferencesUpdateRequest, 
+import { SecureAPI } from '../lib/secureApi';
+import {
+  ProfileResponse,
+  ProfileUpdateRequest,
+  PreferencesUpdateRequest,
   NotificationPreferenceUpdateRequest,
   AvatarUploadResponse
 } from '../types/profile';
@@ -21,16 +22,7 @@ class ProfileService {
   }
 
   async getProfile(): Promise<ProfileResponse> {
-    const response = await fetch(`${getApiBase()}/api/v1/profile`, {
-      method: 'GET',
-      headers: await this.getAuthHeaders()
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch profile: ${response.statusText}`);
-    }
-
-    return response.json();
+    return SecureAPI.getMyProfile();
   }
 
   async updateProfile(data: ProfileUpdateRequest): Promise<ProfileResponse['profile']> {
